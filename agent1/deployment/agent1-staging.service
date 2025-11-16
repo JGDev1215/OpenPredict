@@ -1,0 +1,26 @@
+[Unit]
+Description=OpenPredict Agent 1 Data Collector (Staging)
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/home/ubuntu/openpredict-staging/agent1
+Environment="PATH=/home/ubuntu/openpredict-staging/agent1/venv/bin"
+EnvironmentFile=/home/ubuntu/openpredict-staging/agent1/.env.staging
+ExecStart=/home/ubuntu/openpredict-staging/agent1/venv/bin/python agent1_main.py
+Restart=on-failure
+RestartSec=10
+StandardOutput=append:/var/log/agent1/agent1_staging.log
+StandardError=append:/var/log/agent1/agent1_staging_error.log
+
+# Resource limits
+MemoryLimit=1G
+CPUQuota=50%
+
+# Security
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
